@@ -9,7 +9,7 @@ class BoxContainer {
     BoxContainer();
     BoxContainer(const std::initializer_list<int> &values);
     BoxContainer(const BoxContainer &rhs);
-    void operator=(const BoxContainer &rhs);
+    BoxContainer &operator=(const BoxContainer &rhs);
 
     ~BoxContainer() = default;
 

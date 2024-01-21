@@ -8,9 +8,9 @@ BoxContainer::BoxContainer(const std::initializer_list<int> &values) : BoxContai
     }
 }
 
-void BoxContainer::operator=(const BoxContainer &rhs) {
+BoxContainer &BoxContainer::operator=(const BoxContainer &rhs) {
     if(this == &rhs) {
-        return;
+        return *this;
     }
     m_size = rhs.size();
     m_capacity = rhs.capacity();
@@ -19,6 +19,7 @@ void BoxContainer::operator=(const BoxContainer &rhs) {
     for(size_t i{}; i < size(); ++i) {
         m_data[i] = rhs[i];
     }
+    return *this;
 }
 
 BoxContainer::BoxContainer(const BoxContainer &rhs) {
