@@ -47,7 +47,7 @@ bool BoxContainer::removeItem(int item) {
 }
 
 void BoxContainer::removeAll(int item) {
-    while(removeItem(item)) {
+    for(; removeItem(item);) {
     }
 }
 
