@@ -22,6 +22,9 @@ The **BoxContainer** project is a versatile C++ container class designed for dyn
 ### 5.Iterator Support
 - The class supports iterator functionality, allowing you to iterate over the elements in the container using range-based for loops or standard algorithms.
 
+### 5. Compatible with STL algorithms
+- Ypu can apply the STL algorithms and ranges algorithms on it
+
 ## Usage
 
 ### Initializing a BoxContainer
@@ -61,6 +64,7 @@ BoxContainer container1, container2;
 container1.swap(container2); // Swaps the contents of container1 and container2
 ```
 
+<<<<<<< HEAD
 With these enhancements, the BoxContainer class becomes even more powerful and easier to use in various applications.
 
 
@@ -98,3 +102,6 @@ std::cout << concatenated;
 // Elements: 10 20 30 40 50
 ```
 ### You can find more in the main.cpp file
+
+With these enhancements, the BoxContainer class becomes even more powerful and easier to use in various applications.
+
