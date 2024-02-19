@@ -17,7 +17,7 @@ The **BoxContainer** project is a versatile C++ container class designed for dyn
 - Implements efficient memory allocation and de-allocation strategies for optimal performance.
 
 ### 4. Utilized Modern C++ features
-- Smart pointers and Operator Overloading
+- Smart pointers, Iterators, concepts, and Operator Overloading
 
 ## Usage
 
@@ -44,12 +44,18 @@ BoxContainer container1, container2;
 container1 += container2; // Combines elements of container2 into container1
 ```
 
-### Adding Elements
+### Iterating Over Elements
 ```cpp
-container.addItem(42); // Adds the element 42 to the container
+for (const auto& element : container) {
+    // Process each element
+}
 ```
 
-### Adding Elements
+### Swapping Containers
 ```cpp
-container.addItem(42); // Adds the element 42 to the container
+BoxContainer container1, container2;
+....
+container1.swap(container2); // Swaps the contents of container1 and container2
 ```
+
+With these enhancements, the BoxContainer class becomes even more powerful and easier to use in various applications.
