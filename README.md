@@ -19,6 +19,9 @@ The **BoxContainer** project is a versatile C++ container class designed for dyn
 ### 4. Utilized Modern C++ features
 - Smart pointers, Iterators, concepts, and Operator Overloading
 
+### 5. Compatible with STL algorithms
+- Ypu can apply the STL algorithms and ranges algorithms on it
+
 ## Usage
 
 ### Initializing a BoxContainer
