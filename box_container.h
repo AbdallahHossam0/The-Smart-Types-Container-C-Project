@@ -4,52 +4,60 @@
 #include <memory>
 #include <ostream>
 
+template <typename T>
 class BoxContainer {
   public:
     BoxContainer();
-    BoxContainer(const std::initializer_list<int> &values);
+    BoxContainer(const std::initializer_list<T> &values);
     BoxContainer(const BoxContainer &rhs);
     BoxContainer &operator=(const BoxContainer &rhs);
 
     ~BoxContainer() = default;
 
     void operator+=(const BoxContainer &container1);
-    int &operator[](size_t index) const;
+    T &operator[](size_t index) const;
 
     size_t capacity() const { return m_capacity; }
     size_t size() const { return m_size; }
 
-    void addItem(int item);
-    bool removeItem(int item);
-    void removeAll(int item);
-    void empty(void);
+    void addItem(T item);
+    bool removeItem(T item);
+    void removeAll(T item);
+    void empty(void) const;
 
   private:
     void editCapacity(size_t value);
 
-    std::unique_ptr<int[]> m_data;
+    std::unique_ptr<T[]> m_data;
     size_t m_size{0};
     size_t m_capacity{1};
 };
 
-std::ostream &operator<<(std::ostream &out, const BoxContainer &container);
-BoxContainer operator+(const BoxContainer &container1, const BoxContainer &container2);
+/* ################################################################################################## */
+template <typename T>
+std::ostream &operator<<(std::ostream &out, const BoxContainer<T> &container);
 
-BoxContainer::BoxContainer() : m_capacity{1}, m_size{0}, m_data{std::make_unique<int[]>(1)} {}
+template <typename T>
+BoxContainer<T> operator+(const BoxContainer<T> &container1, const BoxContainer<T> &container2);
 
-BoxContainer::BoxContainer(const std::initializer_list<int> &values) : BoxContainer() {
+template <typename T>
+BoxContainer<T>::BoxContainer() : m_capacity{1}, m_size{0}, m_data{std::make_unique<T[]>(1)} {}
+
+template <typename T>
+BoxContainer<T>::BoxContainer(const std::initializer_list<T> &values) : BoxContainer() {
     for(const int &value : values) {
         this->addItem(value);
     }
 }
 
-BoxContainer &BoxContainer::operator=(const BoxContainer &rhs) {
+template <typename T>
+BoxContainer<T> &BoxContainer<T>::operator=(const BoxContainer<T> &rhs) {
     if(this == &rhs) {
         return *this;
     }
     m_size = rhs.size();
     m_capacity = rhs.capacity();
-    int *arr = new int[m_capacity];
+    int *arr = new T[m_capacity];
     m_data.reset(arr);
     for(size_t i{}; i < size(); ++i) {
         m_data[i] = rhs[i];
@@ -57,18 +65,21 @@ BoxContainer &BoxContainer::operator=(const BoxContainer &rhs) {
     return *this;
 }
 
-BoxContainer::BoxContainer(const BoxContainer &rhs) {
+template <typename T>
+BoxContainer<T>::BoxContainer(const BoxContainer<T> &rhs) {
     *this = rhs;
 }
 
-void BoxContainer::addItem(int item) {
+template <typename T>
+void BoxContainer<T>::addItem(T item) {
     if(size() == capacity()) {
         editCapacity(size() << 1);
     }
     m_data[m_size++] = item;
 }
 
-bool BoxContainer::removeItem(int item) {
+template <typename T>
+bool BoxContainer<T>::removeItem(T item) {
     for(size_t i{}; i < size(); ++i) {
         if(m_data[i] == item) {
             m_data[i] = m_data[--m_size];
@@ -81,20 +92,23 @@ bool BoxContainer::removeItem(int item) {
     return false;
 }
 
-void BoxContainer::removeAll(int item) {
+template <typename T>
+void BoxContainer<T>::removeAll(T item) {
     while(removeItem(item)) {
     }
 }
 
-void BoxContainer::empty(void) {
+template <typename T>
+void BoxContainer<T>::empty(void) const {
     m_size = 0;
     m_capacity = 1;
-    std::unique_ptr<int[]> arr = std::make_unique<int[]>(0);
+    std::unique_ptr<T[]> arr = std::make_unique<int[]>(0);
     m_data = std::move(arr);
 }
 
-void BoxContainer::editCapacity(size_t value) {
-    std::unique_ptr<int[]> arr = std::make_unique<int[]>(value);
+template <typename T>
+void BoxContainer<T>::editCapacity(size_t value) {
+    std::unique_ptr<T[]> arr = std::make_unique<T[]>(value);
     for(size_t i{}; i < size(); ++i) {
         arr[i] = m_data[i];
     }
@@ -102,7 +116,8 @@ void BoxContainer::editCapacity(size_t value) {
     m_capacity = value;
 }
 
-std::ostream &operator<<(std::ostream &out, const BoxContainer &container) {
+template <typename T>
+std::ostream &operator<<(std::ostream &out, const BoxContainer<T> &container) {
     out << "BoxContainer: " << std::endl;
     out << "Size: " << container.size();
     out << ", Capacity: " << container.capacity() << std::endl;
@@ -113,8 +128,9 @@ std::ostream &operator<<(std::ostream &out, const BoxContainer &container) {
     return out;
 }
 
-BoxContainer operator+(const BoxContainer &container1, const BoxContainer &container2) {
-    BoxContainer container;
+template <typename T>
+BoxContainer<T> operator+(const BoxContainer<T> &container1, const BoxContainer<T> &container2) {
+    BoxContainer<T> container;
     for(int i{}; i < container1.size(); ++i) {
         container.addItem(container1[i]);
     }
@@ -124,14 +140,16 @@ BoxContainer operator+(const BoxContainer &container1, const BoxContainer &conta
     return container;
 }
 
-int &BoxContainer::operator[](size_t index) const {
+template <typename T>
+T &BoxContainer<T>::operator[](size_t index) const {
     if(index >= size() || index < 0) {
         throw 0;
     }
     return m_data[index];
 }
 
-void BoxContainer::operator+=(const BoxContainer &container1) {
+template <typename T>
+void BoxContainer<T>::operator+=(const BoxContainer<T> &container1) {
     for(int i = 0; i < container1.size(); ++i) {
         this->addItem(container1[i]);
     }
